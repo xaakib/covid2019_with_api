@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 enum Endpoint {
   cases,
   casesSuspected,
-  caseConfirmed,
+  casesConfirmed,
   deaths,
   recovered,
 }
@@ -32,7 +32,7 @@ class API {
   static Map<Endpoint, String> _paths = {
     Endpoint.cases: 'cases',
     Endpoint.casesSuspected: 'casesSuspected',
-    Endpoint.caseConfirmed: 'caseConfirmed',
+    Endpoint.casesConfirmed: 'caseConfirmed',
     Endpoint.deaths: 'deaths',
     Endpoint.recovered: 'recovered',
   };

@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:covid2019_with_api/app/services/api.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-class APIServices {
+class APIService {
+  APIService(this.api);
   final API api;
-
-  APIServices(this.api);
 
   Future<String> getAccessToken() async {
     final response = await http.post(
@@ -26,7 +25,7 @@ class APIServices {
     throw response;
   }
 
-  Future<int> getEnopointData({
+  Future<int> getEndpointData({
     @required String accessToken,
     @required Endpoint endpoint,
   }) async {
@@ -35,34 +34,27 @@ class APIServices {
       uri.toString(),
       headers: {'Authorization': 'Bearer $accessToken'},
     );
-     if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       if (data.isNotEmpty) {
-        final Map<String>, dynamic> endpointData = data[0];
-        final String responseJsonKey = _responseJsonKey[endpoint];
+        final Map<String, dynamic> endpointData = data[0];
+        final String responseJsonKey = _responseJsonKeys[endpoint];
         final int result = endpointData[responseJsonKey];
-        if (result !=null) {
+        if (result != null) {
           return result;
-          
         }
-        
       }
     }
+    print(
+        'Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
     throw response;
   }
 
-  static Map<Endpoint, String>_responseJsonKey ={
+  static Map<Endpoint, String> _responseJsonKeys = {
     Endpoint.cases: 'cases',
     Endpoint.casesSuspected: 'data',
-    Endpoint.caseConfirmed : 'data',
-    Endpoint.deaths:'data',
+    Endpoint.casesConfirmed: 'data',
+    Endpoint.deaths: 'data',
     Endpoint.recovered: 'data',
-
   };
-
-
-
-
-
-
 }

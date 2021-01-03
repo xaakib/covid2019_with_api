@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _accessToken = "";
 
   void _updateAccessToken() async {
-    final apiService = APIServices(API.sandbox());
+    final apiService = APIService(API.sandbox());
     final accessToken = await apiService.getAccessToken();
     setState(() => _accessToken = accessToken);
   }
